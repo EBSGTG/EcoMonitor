@@ -41,11 +41,12 @@ CREATE TABLE data_calculations_kr (
     ed decimal(10,2),
     bw decimal(10,2),
     at decimal(10,2),
-    nkr decimal(10,2)
+    kr decimal(10,2),
+    level VARCHAR(255)
 );
 
 
 select * from data;
 
-select * from data_calculations_nkr;
-drop table data_calculations_nkr;
+select * from data_calculations_kr;
+drop table data_calculations_kr;
