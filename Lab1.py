@@ -8,7 +8,7 @@ from tkinter import messagebox
 # Параметри підключення до бази даних
 host = "localhost"
 user = "root"
-password = "1809"
+password = "2004"
 database = "ecomon"
 
 # Глобальна змінна для збереження ідентифікатора виділеного запису

@@ -28,6 +28,5 @@ CREATE TABLE data_calculations (
 );
 
 
-
 select * from data;
 drop table data;
