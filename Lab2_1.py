@@ -14,8 +14,8 @@ db_connection = mysql.connector.connect(
 cursor = db_connection.cursor()
 
 
-# Функція для вирахування kr та збереження в базі даних
-def calculate_and_save_kr():
+# Функція для вирахування nkr та збереження в базі даних
+def calculate_and_save_nkr():
     object_name = object_name_var.get()
     substance_name = substance_name_var.get()
     concentration = concentration_var.get()
@@ -27,16 +27,16 @@ def calculate_and_save_kr():
     # Розрахунок nkr
     nkr = concentration / float(rfc_value)
 
-    # Збереження kr в базі даних
+    # Збереження nkr в базі даних
     cursor.execute(
-        "INSERT INTO data_calculations_nkr (objectName, substanceName, concentration, kr) VALUES (%s, %s, %s, %s)",
+        "INSERT INTO data_calculations_nkr (objectName, substanceName, concentration, nkr) VALUES (%s, %s, %s, %s)",
         (object_name, substance_name, concentration, nkr))
     db_connection.commit()
 
     # Вивести kr
-    kr_label.config(text=f"kr = {nkr}")
+    nkr_label.config(text=f"nkr = {nkr}")
 
-    # Встановити колір тексту мітки в залежності від значення kr
+    # Встановити колір тексту мітки в залежності від значення nkr
     if nkr > 1:
         color = 'red'
     elif nkr == 1:
@@ -44,12 +44,12 @@ def calculate_and_save_kr():
     else:
         color = 'green'
 
-    kr_label.config(fg=color)
+    nkr_label.config(fg=color)
 
 
 # Функція для виведення таблиці історії
 def show_history():
-    cursor.execute("SELECT objectName, substanceName, concentration, kr FROM data_calculations_nkr")
+    cursor.execute("SELECT objectName, substanceName, concentration, nkr FROM data_calculations_nkr")
     data = cursor.fetchall()
 
     # Створити нове вікно для відображення таблиці
@@ -57,11 +57,11 @@ def show_history():
     history_window.title("Історія")
 
     # Створити та налаштувати таблицю
-    tree = ttk.Treeview(history_window, columns=("objectName", "substanceName", "concentration", "kr"), show="headings")
+    tree = ttk.Treeview(history_window, columns=("objectName", "substanceName", "concentration", "nkr"), show="headings")
     tree.heading("objectName", text="Об'єкт")
     tree.heading("substanceName", text="Речовина")
     tree.heading("concentration", text="Концентрація")
-    tree.heading("kr", text="Критерії неканцерогенного ризику")
+    tree.heading("nkr", text="Критерії неканцерогенного ризику")
 
     for row in data:
         tree.insert("", "end", values=row)
@@ -94,12 +94,12 @@ concentration_var = DoubleVar()
 concentration_entry = Entry(root, textvariable=concentration_var)
 concentration_entry.pack()
 
-calculate_button = Button(root, text="Обчислити та Зберегти", command=calculate_and_save_kr)
+calculate_button = Button(root, text="Обчислити та Зберегти", command=calculate_and_save_nkr)
 calculate_button.pack()
 
-# Мітка для виведення kr
-kr_label = Label(root, text="", fg="black")
-kr_label.pack()
+# Мітка для виведення nkr
+nkr_label = Label(root, text="", fg="black")
+nkr_label.pack()
 
 # Кнопка для виведення таблиці історії
 history_button = Button(root, text="Історія", command=show_history)
