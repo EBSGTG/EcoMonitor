@@ -10,8 +10,12 @@ def open_lab1_window():
         print(result.stderr)
 
 def open_lab2_window():
-    lab2_window = tk.Toplevel(root)
-    lab2_window.title("Eко-моніторинг Лабораторна 2")
+    command = 'python lab2.py'
+    result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    if result.returncode == 0:
+        print(result.stdout)
+    else:
+        print(result.stderr)
 
 def open_lab3_window():
     lab3_window = tk.Toplevel(root)

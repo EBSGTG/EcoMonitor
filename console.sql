@@ -19,9 +19,15 @@ CREATE table rfc (
     rfc_n DECIMAL(10, 2)
 );
 
+INSERT INTO rfc (substanceName, rfc_n)
+VALUES
+    ('NO2', 0.04),
+    ('SO2', 0.08),
+    ('CO', 3);
+
 CREATE TABLE data_calculations_nkr (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    objectName ENUM ('ТзОВ «Птахокомплекс Губин»', 'Локачинський ЦВНТК ПАТ «Укргазвидобування»', 'ДП «Волиньторф»' ,'FREE') ,
+    objectName ENUM ('ТзОВ «Птахокомплекс Губин»', 'Локачинський ЦВНТК ПАТ «Укргазвидобування»', 'ДП «Волиньторф»') ,
     substanceName ENUM ('NO2', 'SO2', 'CO'),
     concentration decimal(10,2),
     kr decimal(10,2)
@@ -29,7 +35,7 @@ CREATE TABLE data_calculations_nkr (
 
 CREATE TABLE data_calculations_kr (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    objectName ENUM ('ТзОВ «Птахокомплекс Губин»', 'Локачинський ЦВНТК ПАТ «Укргазвидобування»', 'ДП «Волиньторф»' ,'FREE') ,
+    objectName ENUM ('ТзОВ «Птахокомплекс Губин»', 'Локачинський ЦВНТК ПАТ «Укргазвидобування»', 'ДП «Волиньторф»') ,
     pollutantName ENUM ('NO2', 'SO2', 'CO'),
     ca decimal(10,2),
     ch decimal(10,2),
@@ -45,7 +51,7 @@ CREATE TABLE data_calculations_kr (
 );
 
 
-select * from data;
+select * from rfc;
 
 select * from data_calculations_nkr;
 drop table data_calculations_nkr;
