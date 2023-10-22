@@ -79,6 +79,7 @@ pollutant_combobox.pack()
 
 # Створення та розміщення полів для вводу даних
 input_labels = ["ca", "ch", "tout", "tin", "vout", "vin", "ef", "ed", "bw", "at"]
+
 input_entries = {}
 
 for label_text in input_labels:
@@ -123,23 +124,40 @@ def show_history():
     history_window.title("Історія")
 
     # Create a Treeview widget to display the table
-    treeview = ttk.Treeview(history_window, columns=("Object Name", "Pollutant Name", "ca", "ch", "tout", "tin", "vout", "vin", "ef", "ed", "bw", "at", "kr", "level"))
-    treeview.heading("#0", text="ID")
-    treeview.heading("#1", text="Назва об'єкту")
-    treeview.heading("#2", text="Назва субстанції")
-    treeview.heading("#3", text="Концентрація речовини в атмосферному повітрі, мг/куб.м")
-    treeview.heading("#4", text="Концентрація речовини у повітрі приміщення, мг/куб.м")
-    treeview.heading("#5", text="Час, що проводиться поза приміщенням, год/доба")
-    treeview.heading("#6", text="Час, що проводиться у приміщенні, год/доба")
-    treeview.heading("#7", text="Швидкість дихання поза приміщенням, куб.м/год")
-    treeview.heading("#8", text="Швидкість дихання у приміщенні, куб.м/год")
-    treeview.heading("#9", text="Частота впливу, днів/рік")
-    treeview.heading("#10", text="Тривалість впливу, років")
-    treeview.heading("#11", text="Маса тіла, кг")
-    treeview.heading("#12", text="Період осереднення експозиції, років")
-    treeview.heading("#13", text="kr")
-    treeview.heading("#14", text="level")
+    treeview = ttk.Treeview(history_window, columns=("ID","Object Name", "Pollutant Name", "ca", "ch", "tout", "tin", "vout", "vin", "ef", "ed", "bw", "at", "kr", "level"))
+    treeview.heading("#1", text="ID" ,anchor="w")
+    treeview.heading("#2", text="Назва об'єкту",anchor="w")
+    treeview.heading("#3", text="Назва субстанції",anchor="w")
+    treeview.heading("#4", text="Концентрація речовини в атмосферному повітрі, мг/куб.м",anchor="w")
+    treeview.heading("#5", text="Концентрація речовини у повітрі приміщення, мг/куб.м",anchor="w")
+    treeview.heading("#6", text="Час, що проводиться поза приміщенням, год/доба",anchor="w")
+    treeview.heading("#7", text="Час, що проводиться у приміщенні, год/доба",anchor="w")
+    treeview.heading("#8", text="Швидкість дихання поза приміщенням, куб.м/год",anchor="w")
+    treeview.heading("#9", text="Швидкість дихання у приміщенні, куб.м/год",anchor="w")
+    treeview.heading("#10", text="Частота впливу, днів/рік",anchor="w")
+    treeview.heading("#11", text="Тривалість впливу, років",anchor="w")
+    treeview.heading("#12", text="Маса тіла, кг",anchor="w")
+    treeview.heading("#13", text="Період осереднення експозиції, років",anchor="w")
+    treeview.heading("#14", text="LADD",anchor="w")
+    treeview.heading("#15", text="Рівень Небезпеки",anchor="w")
     treeview.column("#0", width=0)
+    treeview.column("#1", width=10)
+    treeview.column("#3", width=100)
+    treeview.column("#4", width=60)
+    treeview.column("#5", width=60)
+    treeview.column("#6", width=60)
+    treeview.column("#7", width=60)
+    treeview.column("#8", width=60)
+    treeview.column("#9", width=60)
+    treeview.column("#10", width=60)
+    treeview.column("#11", width=60)
+    treeview.column("#12", width=60)
+    treeview.column("#13", width=60)
+
+
+
+
+
     treeview.pack()
 
     for row in data:
