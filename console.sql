@@ -32,4 +32,4 @@ CREATE TABLE data_calculations_kr (
 select * from data;
 
 select * from data_calculations;
-drop table data_calculations;
+drop table data;

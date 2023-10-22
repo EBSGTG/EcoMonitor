@@ -5,80 +5,52 @@ from tkinter import filedialog
 from tkinter import ttk
 from tkinter import messagebox
 
-# Параметри підключення до бази даних
 host = "localhost"
 user = "root"
 password = "1809"
 database = "ecomon"
 
-# Глобальна змінна для збереження ідентифікатора виділеного запису
 selected_id = None
 selected_item = None
 
-# Функція для імпорту даних з Excel-файлу
 def import_data():
-    # Відкриття файлового діалогу для вибору файлу Excel
     file_path = filedialog.askopenfilename(filetypes=[("Excel Files", "*.xlsx")])
 
     if not file_path:
-        return  # Користувач скасував вибір файлу
+        return
 
     try:
-        # Підключення до бази даних
         connection = mysql.connector.connect(host=host, user=user, password=password, database=database)
         cursor = connection.cursor()
-
-        # Завантаження даних з Excel-файлу
         df = pd.read_excel(file_path)
-
-        # Імпорт даних до таблиці "data"
         for index, row in df.iterrows():
             data = (row['year'], row['objectName'], row['activity'], row['location'], row['no2'], row['so2'], row['co'], row['microparts'], row['summary'])
             insert_query = "INSERT INTO data (year, objectName, activity, location, no2, so2, co, microparts, summary) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
             cursor.execute(insert_query, data)
 
-        # Збереження змін до бази даних
         connection.commit()
-
-        # Закриття курсора та з'єднання
         cursor.close()
         connection.close()
-
         messagebox.showinfo("Успіх", "Дані імпортовано успішно.")
-
-        # Оновлення таблиці після імпорту
         display_table()
     except Exception as e:
         messagebox.showerror("Помилка", f"Виникла помилка: {str(e)}")
-
-# Функція для виведення таблиці
 def display_table():
     connection = mysql.connector.connect(host=host, user=user, password=password, database=database)
     cursor = connection.cursor()
-
-    # Очищення поточного вмісту таблиці
     for item in table.get_children():
         table.delete(item)
-
-    # Вибір всіх записів з таблиці "data"
     cursor.execute("SELECT * FROM data")
     records = cursor.fetchall()
-
-    # Додавання нових записів до таблиці
     for record in records:
         table.insert("", "end", values=record)
-
     connection.close()
-
-# Функція для видалення запису
 def delete_record():
     global selected_id, selected_item
     selected_items = table.selection()
-
     if selected_items:
         selected_item = selected_items[0]
         selected_id = table.item(selected_item, "values")[9]  # Отримання ID обраного запису
-
         confirmation = messagebox.askyesno("Видалити запис", "Ви впевнені, що бажаєте видалити цей запис?")
         if confirmation:
             connection = mysql.connector.connect(host=host, user=user, password=password, database=database)
@@ -90,14 +62,11 @@ def delete_record():
             display_table()
     else:
         messagebox.showwarning("Не обрано запис", "Будь ласка, виберіть запис для видалення.")
-
-# Функція для відкриття вікна редагування запису
 def open_edit_record_window():
     global selected_id, selected_item
     if selected_item:
         add_edit_record("Редагування запису", selected_id)
 
-# Функція для додавання або редагування запису
 def add_edit_record(title, record_id=None):
     def save_record():
         year = year_entry.get()
@@ -108,37 +77,28 @@ def add_edit_record(title, record_id=None):
         so2 = so2_entry.get()
         co = co_entry.get()
         microparts = microparts_entry.get()
-
-        # Підрахунок суми автоматично
         try:
             no2 = float(no2)
         except ValueError:
             no2 = 0.0
-
         try:
             so2 = float(so2)
         except ValueError:
             so2 = 0.0
-
         try:
             co = float(co)
         except ValueError:
             co = 0.0
-
         try:
             microparts = float(microparts)
         except ValueError:
             microparts = 0.0
-
         summary = no2 + so2 + co + microparts
-
         summary_entry.delete(0, "end")
         summary_entry.insert(0, summary)
-
         try:
             connection = mysql.connector.connect(host=host, user=user, password=password, database=database)
             cursor = connection.cursor()
-
             if record_id is None:  # Додавання нового запису
                 insert_query = "INSERT INTO data (year, objectName, activity, location, no2, so2, co, microparts, summary) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
                 data = (year, object_name, activity, location, no2, so2, co, microparts, summary)
@@ -147,7 +107,6 @@ def add_edit_record(title, record_id=None):
                 update_query = "UPDATE data SET year = %s, objectName = %s, activity = %s, location = %s, no2 = %s, so2 = %s, co = %s, microparts = %s, summary = %s WHERE id = %s"
                 data = (year, object_name, activity, location, no2, so2, co, microparts, summary, record_id)
                 cursor.execute(update_query, data)
-
             connection.commit()
             connection.close()
             display_table()
@@ -158,7 +117,6 @@ def add_edit_record(title, record_id=None):
     add_edit_window = tk.Toplevel(root)
     add_edit_window.title(title)
 
-    # Створення полів для введення даних
     year_label = tk.Label(add_edit_window, text="Рік")
     year_label.grid(row=0, column=0)
     year_entry = tk.Entry(add_edit_window)
@@ -228,8 +186,6 @@ def add_edit_record(title, record_id=None):
             microparts_entry.insert(0, microparts)
             summary_entry.insert(0, summary)
 
-
-# Функція для виділення запису та збереження ідентифікатора для редагування
 def select_record(event):
     global selected_id, selected_item
     selected_items = table.selection()
@@ -237,11 +193,9 @@ def select_record(event):
         selected_item = selected_items[0]
         selected_id = table.item(selected_item, "values")[9]
 
-# Створення головного вікна програми
 root = tk.Tk()
 root.title("Імпорт даних з Excel до MySQL")
 
-# Визначення розмірів та розміщення вікна по середині екрану
 window_width = 1550
 window_height = 400
 screen_width = root.winfo_screenwidth()
@@ -251,13 +205,11 @@ y = (screen_height - window_height) // 2
 root.geometry(f'{window_width}x{window_height}+{x}+{y}')
 root['bg'] = 'white'
 
-# Зміна стилю та кольорів віджетів
 style = ttk.Style()
 style.theme_use("clam")
 style.configure("Treeview", background="#f0f0f0")
 style.configure("Treeview.Heading", font=("Arial", 12))
 
-# Створення Treeview для відображення таблиці
 table = ttk.Treeview(root, columns=("year", "objectName", "activity", "location", "no2", "so2", "co", "microparts", "summary"), height = 40)
 table.heading("#1", text="Рік", anchor="w")
 table.heading("#2", text="Назва об'єкту", anchor="w")
@@ -278,7 +230,6 @@ table.column("#6", width=150)
 table.column("#7", width=200)
 table.column("#8", width=200)
 table.column("#9", width=200)
-# Підключіть функцію для виділення запису
 table.bind("<ButtonRelease-1>", select_record)
 table.pack()
 
@@ -290,8 +241,5 @@ edit_button = tk.Button(root, text="Редагувати запис", command=op
 edit_button.pack()
 delete_button = tk.Button(root, text="Видалити запис", command=delete_record, relief="flat")
 delete_button.pack()
-
 display_table()
-
-# Запуск головного циклу tkinter
 root.mainloop()
