@@ -30,7 +30,7 @@ CREATE TABLE data_calculations_nkr (
     objectName ENUM ('ТзОВ «Птахокомплекс Губин»', 'Локачинський ЦВНТК ПАТ «Укргазвидобування»', 'ДП «Волиньторф»') ,
     substanceName ENUM ('NO2', 'SO2', 'CO'),
     concentration decimal(10,2),
-    kr decimal(10,2)
+    nkr decimal(10,2)
 );
 
 CREATE TABLE data_calculations_kr (
@@ -47,12 +47,13 @@ CREATE TABLE data_calculations_kr (
     ed decimal(10,2),
     bw decimal(10,2),
     at decimal(10,2),
-    nkr decimal(10,2),
+    kr decimal(10,2),
     level Varchar(255)
 );
 
+drop table rfc;
 
 select * from rfc;
 
-select * from data_calculations_nkr;
+select * from data_calculations_kr;
 drop table data_calculations_nkr;
