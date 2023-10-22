@@ -25,7 +25,7 @@ def open_lab4_window():
 
 def open_lab5_window():
     lab4_window = tk.Toplevel(root)
-    lab4_window.title("Eко-моніторинг Лабораторна 4")
+    lab4_window.title("Eко-моніторинг Лабораторна 5")
 
 
 root = tk.Tk()
