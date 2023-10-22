@@ -12,22 +12,21 @@ def open_lab1_window():
 def open_lab2_window():
     lab2_window = tk.Toplevel(root)
     lab2_window.title("Eко-моніторинг Лабораторна 2")
-    # Додайте сюди функціонал для другої лабораторної
 
 def open_lab3_window():
     lab3_window = tk.Toplevel(root)
     lab3_window.title("Eко-моніторинг Лабораторна 3")
-    # Додайте сюди функціонал для третьої лабораторної
+
 
 def open_lab4_window():
     lab4_window = tk.Toplevel(root)
     lab4_window.title("Eко-моніторинг Лабораторна 4")
-    # Додайте сюди функціонал для четвертої лабораторної
+
 
 def open_lab5_window():
     lab4_window = tk.Toplevel(root)
     lab4_window.title("Eко-моніторинг Лабораторна 4")
-    # Додайте сюди функціонал для четвертої лабораторної
+
 
 root = tk.Tk()
 root.title("Eко-моніторинг лаби")
