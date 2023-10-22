@@ -9,7 +9,6 @@ host = "localhost"
 user = "root"
 password = "1809"
 database = "ecomon"
-
 selected_id = None
 selected_item = None
 
@@ -110,7 +109,7 @@ def add_edit_record(title, record_id=None):
             connection.commit()
             connection.close()
             display_table()
-            add_edit_window.destroy()  # Закрити вікно після додавання або редагування запису
+            add_edit_window.destroy()
         except Exception as e:
             messagebox.showerror("Помилка", f"Виникла помилка: {str(e)}")
 

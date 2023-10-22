@@ -15,21 +15,30 @@ CREATE TABLE data (
 CREATE TABLE data_calculations_nkr (
     id INT AUTO_INCREMENT PRIMARY KEY,
     objectName ENUM ('ТзОВ «Птахокомплекс Губин»', 'Локачинський ЦВНТК ПАТ «Укргазвидобування»', 'ДП «Волиньторф»' ,'FREE') ,
-    no2_nkr DECIMAL(10, 2),
-    so2_nkr DECIMAL(10, 2),
-    co_nkr DECIMAL(10, 2)
+    pollutantName ENUM ('NO2', 'SO2', 'CO'),
+    concentration decimal(10,2),
+    kr decimal(10,2)
 );
 
 CREATE TABLE data_calculations_kr (
     id INT AUTO_INCREMENT PRIMARY KEY,
     objectName ENUM ('ТзОВ «Птахокомплекс Губин»', 'Локачинський ЦВНТК ПАТ «Укргазвидобування»', 'ДП «Волиньторф»' ,'FREE') ,
-    no2_kr DECIMAL(10, 2),
-    so2_kr DECIMAL(10, 2),
-    co_kr DECIMAL(10, 2)
+    pollutantName ENUM ('NO2', 'SO2', 'CO'),
+    ca decimal(10,2),
+    ch decimal(10,2),
+    tout decimal(10,2),
+    tin decimal(10,2),
+    vout decimal(10,2),
+    vin decimal(10,2),
+    ef decimal(10,2),
+    ed decimal(10,2),
+    bw decimal(10,2),
+    at decimal(10,2),
+    nkr decimal(10,2)
 );
 
 
 select * from data;
 
-select * from data_calculations;
-drop table data;
+select * from data_calculations_nkr;
+drop table data_calculations_kr;
