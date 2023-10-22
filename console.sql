@@ -47,7 +47,8 @@ CREATE TABLE data_calculations_kr (
     ed decimal(10,2),
     bw decimal(10,2),
     at decimal(10,2),
-    nkr decimal(10,2)
+    nkr decimal(10,2),
+    level Varchar(255)
 );
 
 
