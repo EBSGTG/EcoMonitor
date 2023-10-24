@@ -33,6 +33,7 @@ CREATE TABLE data_calculations_nkr (
     nkr decimal(10,2)
 );
 
+
 CREATE TABLE data_calculations_kr (
     id INT AUTO_INCREMENT PRIMARY KEY,
     objectName ENUM ('ТзОВ «Птахокомплекс Губин»', 'Локачинський ЦВНТК ПАТ «Укргазвидобування»', 'ДП «Волиньторф»') ,

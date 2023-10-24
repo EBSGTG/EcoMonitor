@@ -19,7 +19,7 @@ class PollutantName(Enum):
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="1809",
+    password="2004",
     database="ecomon"
 )
 
