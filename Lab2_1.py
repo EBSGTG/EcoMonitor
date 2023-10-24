@@ -10,6 +10,7 @@ db_connection = mysql.connector.connect(
     database="ecomon"
 )
 
+
 # Створення об'єкту курсора
 cursor = db_connection.cursor()
 
