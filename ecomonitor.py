@@ -10,14 +10,8 @@ def open_lab1_window():
         print(result.stderr)
 
 def open_lab2_window():
-    command = 'python lab2_1.py'
+    command = 'python lab2_1.py & python lab2_2.py'
     result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    if result.returncode == 0:
-        print(result.stdout)
-    else:
-        print(result.stderr)
-    command2 = 'python lab2_2.py'
-    result = subprocess.run(command2, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     if result.returncode == 0:
         print(result.stdout)
     else:

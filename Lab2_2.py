@@ -3,7 +3,6 @@ from tkinter import ttk
 import mysql.connector
 from enum import Enum
 
-# Оголошення ENUM для objectName та pollutantName
 class ObjectName(Enum):
     PTAHOKOMPLEX_GUBIN = 'ТзОВ «Птахокомплекс Губин»'
     LOKACHYNSKIY_CVNTK = 'Локачинський ЦВНТК ПАТ «Укргазвидобування»'
@@ -15,30 +14,28 @@ class PollutantName(Enum):
     SO2 = 'SO2'
     CO = 'CO'
 
-# З'єднання з базою даних
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="2004",
+    password="1809",
     database="ecomon"
 )
 
 cursor = db.cursor()
 
-# Функція для розрахунку kr і оновлення бази даних
 def calculate_kr():
     object_name = object_combobox.get()
     pollutant_name = pollutant_combobox.get()
-    ca = float(input_entries["ca"].get())
-    ch = float(input_entries["ch"].get())
-    tout = float(input_entries["tout"].get())
-    tin = float(input_entries["tin"].get())
-    vout = float(input_entries["vout"].get())
-    vin = float(input_entries["vin"].get())
-    ef = float(input_entries["ef"].get())
-    ed = float(input_entries["ed"].get())
-    bw = float(input_entries["bw"].get())
-    at = float(input_entries["at"].get())
+    ca = float(input_entries["Концентрація речовини в атмосферному повітрі, мг/куб.м"].get())
+    ch = float(input_entries["Концентрація речовини у повітрі приміщення, мг/куб.м"].get())
+    tout = float(input_entries["Час, що проводиться поза приміщенням, год/доба"].get())
+    tin = float(input_entries["Час, що проводиться у приміщенні, год/доба"].get())
+    vout = float(input_entries["Швидкість дихання поза приміщенням, куб.м/год"].get())
+    vin = float(input_entries["Швидкість дихання у приміщенні, куб.м/год"].get())
+    ef = float(input_entries["Частота впливу, днів/рік"].get())
+    ed = float(input_entries["Тривалість впливу, років"].get())
+    bw = float(input_entries["Маса тіла, кг"].get())
+    at = float(input_entries["Період осереднення експозиції, років"].get())
 
     kr = ((ca*tout*vout)+(ch*tin*vin)*ef*ed)/(bw*at*365)
 
@@ -53,35 +50,27 @@ def calculate_kr():
 
     kr_result.config(text=f"kr: {kr:.6f}, Рівень Небезпеки: {level}")
 
-    # Збереження даних у базі даних
     query = "INSERT INTO data_calculations_kr (objectName, pollutantName, ca, ch, tout, tin, vout, vin, ef, ed, bw, at, kr,level) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)"
     values = (object_name, pollutant_name, ca, ch, tout, tin, vout, vin, ef, ed, bw, at, kr, level)
     cursor.execute(query, values)
-    db.commit()  # Оновлення бази даних
+    db.commit()
 
 
-# Створення головного вікна
 root = tk.Tk()
 root.title("Розрахунок kr")
 
-# Створення та розміщення елементів на головному вікні
 object_label = tk.Label(root, text="Назва об'єкта:")
 object_label.pack()
-
 object_combobox = ttk.Combobox(root, values=[obj.value for obj in ObjectName], state="readonly")
 object_combobox.pack()
-
 pollutant_label = tk.Label(root, text="Тип субстанції:")
 pollutant_label.pack()
-
 pollutant_combobox = ttk.Combobox(root, values=[poll.value for poll in PollutantName], state="readonly")
 pollutant_combobox.pack()
 
-# Створення та розміщення полів для вводу даних
-input_labels = ["ca", "ch", "tout", "tin", "vout", "vin", "ef", "ed", "bw", "at"]
+input_labels = ["Концентрація речовини в атмосферному повітрі, мг/куб.м", "Концентрація речовини у повітрі приміщення, мг/куб.м", "Час, що проводиться поза приміщенням, год/доба", "Час, що проводиться у приміщенні, год/доба", "Швидкість дихання поза приміщенням, куб.м/год", "Швидкість дихання у приміщенні, куб.м/год", "Частота впливу, днів/рік", "Тривалість впливу, років", "Маса тіла, кг", "Період осереднення експозиції, років"]
 
 input_entries = {}
-
 for label_text in input_labels:
     label_frame = tk.Frame(root)
     label_frame.pack(fill=tk.X)
@@ -97,33 +86,27 @@ for label_text in input_labels:
 
     input_entries[label_text] = entry_widget
 
-
-# Кнопка для розрахунку
 calculate_button = tk.Button(root, text="Розрахувати kr", command=calculate_kr)
 calculate_button.pack()
-
-def display_data_calculations_kr():
-    treeview.delete(*treeview.get_children())  # Clear the existing data
-
-    cursor.execute("SELECT * FROM data_calculations_kr")
-    data = cursor.fetchall()
-
-    for row in data:
-        treeview.insert("", "end", values=row)
-
 kr_result = tk.Label(root, text="")
 kr_result.pack()
-
 
 def show_history():
     cursor.execute("SELECT * FROM data_calculations_kr")
     data = cursor.fetchall()
 
-    # Create a new window for displaying the historical table
     history_window = tk.Toplevel(root)
     history_window.title("Історія")
 
-    # Create a Treeview widget to display the table
+    def display_data_calculations_kr():
+        treeview.delete(*treeview.get_children())
+
+        cursor.execute("SELECT * FROM data_calculations_kr")
+        data = cursor.fetchall()
+
+        for row in data:
+            treeview.insert("", "end", values=row)
+
     treeview = ttk.Treeview(history_window, columns=("ID","Object Name", "Pollutant Name", "ca", "ch", "tout", "tin", "vout", "vin", "ef", "ed", "bw", "at", "kr", "level"))
     treeview.heading("#1", text="ID" ,anchor="w")
     treeview.heading("#2", text="Назва об'єкту",anchor="w")
@@ -154,10 +137,6 @@ def show_history():
     treeview.column("#12", width=60)
     treeview.column("#13", width=60)
 
-
-
-
-
     treeview.pack()
 
     for row in data:
@@ -165,11 +144,7 @@ def show_history():
 
     treeview.pack()
 
-
-
 history_button = tk.Button(root, text="Історія", command=show_history)
 history_button.pack()
 
-
-# Запуск головного циклу
 root.mainloop()
