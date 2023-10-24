@@ -16,8 +16,8 @@ def open_lab2_window():
         print(result.stdout)
     else:
         print(result.stderr)
-    command = 'python lab2_2.py'
-    result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    command2 = 'python lab2_2.py'
+    result = subprocess.run(command2, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     if result.returncode == 0:
         print(result.stdout)
     else:
