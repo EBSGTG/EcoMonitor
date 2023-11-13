@@ -29,8 +29,8 @@ CREATE TABLE data_calculations_nkr (
     id INT AUTO_INCREMENT PRIMARY KEY,
     objectName ENUM ('ТзОВ «Птахокомплекс Губин»', 'Локачинський ЦВНТК ПАТ «Укргазвидобування»', 'ДП «Волиньторф»') ,
     substanceName ENUM ('NO2', 'SO2', 'CO'),
-    concentration decimal(10,2),
-    nkr decimal(10,2)
+    concentration decimal(10,4),
+    nkr decimal(10,4)
 );
 
 
@@ -38,23 +38,40 @@ CREATE TABLE data_calculations_kr (
     id INT AUTO_INCREMENT PRIMARY KEY,
     objectName ENUM ('ТзОВ «Птахокомплекс Губин»', 'Локачинський ЦВНТК ПАТ «Укргазвидобування»', 'ДП «Волиньторф»') ,
     pollutantName ENUM ('NO2', 'SO2', 'CO'),
-    ca decimal(10,2),
-    ch decimal(10,2),
-    tout decimal(10,2),
-    tin decimal(10,2),
-    vout decimal(10,2),
-    vin decimal(10,2),
-    ef decimal(10,2),
-    ed decimal(10,2),
-    bw decimal(10,2),
-    at decimal(10,2),
-    kr decimal(10,2),
+    ca decimal(10,4),
+    ch decimal(10,4),
+    tout decimal(10,4),
+    tin decimal(10,4),
+    vout decimal(10,4),
+    vin decimal(10,4),
+    ef decimal(10,4),
+    ed decimal(10,4),
+    bw decimal(10,4),
+    at decimal(10,4),
+    kr decimal(10,4),
     level Varchar(255)
 );
 
-drop table rfc;
+drop table data;
 
 select * from rfc;
 
 select * from data_calculations_kr;
 drop table data_calculations_nkr;
+drop database ecomon;
+
+CREATE TABLE compensation_data (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    object_name VARCHAR(255),
+    pollutant_name VARCHAR(255),
+    gdk_g double,
+    gdk_your double,
+    volume double,
+    time double,
+    weight double,
+    min_salary double,
+    index_danger double,
+    c_t double,
+    c_danger double,
+    compensation_amount DOUBLE
+);
