@@ -18,8 +18,12 @@ def open_lab2_window():
         print(result.stderr)
 
 def open_lab3_window():
-    lab3_window = tk.Toplevel(root)
-    lab3_window.title("Eко-моніторинг Лабораторна 3")
+    command = 'python lab3.py'
+    result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    if result.returncode == 0:
+        print(result.stdout)
+    else:
+        print(result.stderr)
 
 
 def open_lab4_window():
