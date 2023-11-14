@@ -27,8 +27,12 @@ def open_lab3_window():
 
 
 def open_lab4_window():
-    lab4_window = tk.Toplevel(root)
-    lab4_window.title("Eко-моніторинг Лабораторна 4")
+    command = 'python lab4.py'
+    result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    if result.returncode == 0:
+        print(result.stdout)
+    else:
+        print(result.stderr)
 
 
 def open_lab5_window():
