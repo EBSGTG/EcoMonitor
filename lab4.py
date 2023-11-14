@@ -68,7 +68,7 @@ def calculate_taxes():
             cursor.execute(query, values)
             db.commit()
 
-            result_var.set(f"Розраховані та збережені податки для {object_name} становлять {sum(tax_amount.values())} в {year} році")
+            result_var.set(f"Розраховані та збережені податки для {object_name} становлять {sum(tax_amount.values())} грн. в {year} році")
         else:
             result_var.set("Помилка: недостатньо рядків у таблиці taxes.")
     else:
