@@ -10,7 +10,7 @@ def open_calc1_window():
         print(result.stderr)
 
 def open_calc2_window():
-    command = ''
+    command = 'python GeneralLoss.py'
     result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     if result.returncode == 0:
         print(result.stdout)
