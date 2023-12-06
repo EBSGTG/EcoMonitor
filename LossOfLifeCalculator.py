@@ -1,4 +1,7 @@
 import tkinter as tk
+from tkinter import ttk
+import mysql.connector
+
 
 def calculate_losses():
     try:
@@ -17,8 +20,69 @@ def calculate_losses():
         loss_rr = ml * num_l + mt * num_t + mi * num_i + mz_adult * num_z_adult + mz_child * num_z_child
 
         label_result.config(text=f"Розмір збитків: {loss_rr} тис. гривень")
+
+        # Підключення до бази даних
+        connection = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="2004",
+            database="ecomon"
+        )
+
+        cursor = connection.cursor()
+
+        # Вставка результату обрахунків до таблиці
+        insert_query = "INSERT INTO LossOfLife (ml, mt, mi, mz_adult, mz_child, num_l, num_t, num_i, num_z_adult, num_z_child, loss_rr) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        values = (ml, mt, mi, mz_adult, mz_child, num_l, num_t, num_i, num_z_adult, num_z_child, loss_rr)
+
+        cursor.execute(insert_query, values)
+
+        # Підтвердження та закриття з'єднання
+        connection.commit()
+        connection.close()
+
     except ValueError:
         label_result.config(text="Будь ласка, введіть числа.")
+    except mysql.connector.Error as error:
+        print("Помилка підключення до бази даних:", error)
+
+def show_history():
+    try:
+        connection = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="2004",
+            database="ecomon"
+        )
+
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT * FROM LossOfLife")
+        data = cursor.fetchall()
+
+        history_window = tk.Toplevel(root)
+        history_window.title("Історія LossOfLife")
+
+        treeview = ttk.Treeview(history_window, columns=(
+            "ID", "Легкий випадок", "Тяжкий випадок", "Втрати від інвалідності", "Загибель дорослої людини", "Загибель дитини", "Кількість постраждалих від легкого випадку", "Кількість постраждалих від тяжкого випадку", "Кількість постраждалих від інвалідності", "Кількість загиблих дорослих", "Кількість загиблих дітей", "Сума збитків"
+        ))
+
+        for index, col in enumerate(
+                ["ID", "Легкий випадок", "Тяжкий випадок", "Втрати від інвалідності", "Загибель дорослої людини",
+                 "Загибель дитини", "Кількість постраждалих від легкого випадку",
+                 "Кількість постраждалих від тяжкого випадку", "Кількість постраждалих від інвалідності",
+                 "Кількість загиблих дорослих", "Кількість загиблих дітей", "Сума збитків"]):
+            treeview.heading(f"#{index}", text=col)
+            treeview.column(f"#{index}", width=50)
+
+        for row in data:
+            treeview.insert("", "end", values=row)
+
+        treeview.pack(fill='both', expand=True)
+
+    except mysql.connector.Error as error:
+        print("Помилка підключення до бази даних:", error)
+
 
 
 root = tk.Tk()
@@ -56,6 +120,9 @@ for entry_text in entries:
 # Кнопка для розрахунку
 calculate_button = tk.Button(root, text="Обчислити збитки", command=calculate_losses)
 calculate_button.pack()
+
+history_button = tk.Button(root, text="Історія", command=show_history)
+history_button.pack()
 
 # Виведення результату
 label_result = tk.Label(root, text="")

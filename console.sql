@@ -60,18 +60,57 @@ select * from data_calculations_kr;
 drop table data_calculations_nkr;
 drop database ecomon;
 
-CREATE TABLE compensation_data (
+CREATE table taxes_water (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    object_name VARCHAR(255),
-    pollutant_name VARCHAR(255),
-    gdk_g double,
-    gdk_your double,
-    volume double,
-    time double,
-    weight double,
-    min_salary double,
-    index_danger double,
-    c_t double,
-    c_danger double,
-    compensation_amount DOUBLE
+    year int,
+    objectName VARCHAR(255),
+    pollutant_name varchar(255),
+    concentration varchar(255),
+    weight float,
+    tax float
+);
+
+CREATE table taxes_placement (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    year int,
+    objectName VARCHAR(255),
+    classDanger varchar(255),
+    coefDanger varchar(255),
+    weight float,
+    tax float
+);
+
+CREATE table taxes_radiation (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    year int,
+    objectName VARCHAR(255),
+    CategoryDanger varchar(255),
+    valueElectricity float,
+    tax float
+);
+CREATE table taxes_temporaryRadiation (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    year int,
+    objectName VARCHAR(255),
+    CategoryDanger varchar(255),
+    taxRadiation float,
+    valueVolume float,
+    time float,
+    tax float
+);
+
+
+CREATE TABLE LossOfLife  (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ml FLOAT,
+    mt FLOAT,
+    mi FLOAT,
+    mz_adult FLOAT,
+    mz_child FLOAT,
+    num_l INT,
+    num_t INT,
+    num_i INT,
+    num_z_adult INT,
+    num_z_child INT,
+    loss_rr FLOAT
 );
