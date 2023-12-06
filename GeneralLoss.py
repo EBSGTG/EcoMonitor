@@ -386,11 +386,9 @@ def func6():
         "Кількість втраченого майна громадян 3:"
     ]
 
-    org_entries_label = tk.Label(root, text="Введіть дані для організацій:")
+    org_entries_label = tk.Label(root, text="Введіть дані:")
     org_entries_label.pack()
 
-    citizen_entries_label = tk.Label(root, text="Введіть дані для громадян:")
-    citizen_entries_label.pack()
 
     entry_labels = []
     entry_inputs = []
@@ -449,12 +447,12 @@ def update_values():
     global LossOfMaterials
     global OtherPropertyLoss
     values = [LossOfProductionFunds, NonProductionFundsLoss, LossOfFinishedIndustrialProduct, LossOfUnfinishedIndustrialProduct, LossOfMaterials, OtherPropertyLoss]
-    label_func1.config(text=f"func1: {values[0]:>5}")
-    label_func2.config(text=f"func2: {values[1]:>5}")
-    label_func3.config(text=f"func3: {values[2]:>5}")
-    label_func4.config(text=f"func4: {values[3]:>5}")
-    label_func5.config(text=f"func5: {values[4]:>5}")
-    label_func6.config(text=f"func6: {values[5]:>5}")
+    label_func1.config(text=f"Збиткі від руйнування фондів виробничого призначення: {values[0]:>5}")
+    label_func2.config(text=f"Збиткі від руйнування фондів невиробничого призначення: {values[1]:>5}")
+    label_func3.config(text=f"Збиткі від втрат готової промислової та сільськогосподарської продукції: {values[2]:>5}")
+    label_func4.config(text=f"Збиткі від втрат незібраної сільськогосподарської продукції: {values[3]:>5}")
+    label_func5.config(text=f"Збиткі від втрат сировини, матеріалів та напівфабрикатів, проміжної продукції: {values[4]:>5}")
+    label_func6.config(text=f"Збиткі від втрат майна громадян та організацій: {values[5]:>5}")
     label_sum.config(text=f"Сума: {sum(values):>5}")
 
 root = tk.Tk()
@@ -462,39 +460,39 @@ root.title("Обчислення функцій")
 
 
 
-label_func1 = tk.Label(root, text="func1: ")
+label_func1 = tk.Label(root, text="Збиткі від руйнування фондів виробничого призначення: ")
 label_func1.pack()
-button_func1 = tk.Button(root, text="Функція 1", command=func1)
+button_func1 = tk.Button(root, text="Руйнування фондів виробничого призначення", command=func1)
 button_func1.pack()
 
 
-label_func2 = tk.Label(root, text="func2: ")
+label_func2 = tk.Label(root, text="Збиткі від руйнування фондів невиробничого призначення: ")
 label_func2.pack()
-button_func2 = tk.Button(root, text="Функція 2", command=func2)
+button_func2 = tk.Button(root, text="Руйнування фондів невиробничого призначення", command=func2)
 button_func2.pack()
 
 
-label_func3 = tk.Label(root, text="func3: ")
+label_func3 = tk.Label(root, text="Збиткі від втрат готової промислової та сільськогосподарської продукції: ")
 label_func3.pack()
-button_func3 = tk.Button(root, text="Функція 3", command=func3)
+button_func3 = tk.Button(root, text="Втрати готової промислової та сільськогосподарської продукції", command=func3)
 button_func3.pack()
 
 
-label_func4 = tk.Label(root, text="func4: ")
+label_func4 = tk.Label(root, text="Збиткі від втрат незібраної сільськогосподарської продукції: ")
 label_func4.pack()
-button_func4 = tk.Button(root, text="Функція 4", command=func4)
+button_func4 = tk.Button(root, text="Втрат незібраної сільськогосподарської продукції", command=func4)
 button_func4.pack()
 
 
-label_func5 = tk.Label(root, text="func5: ")
+label_func5 = tk.Label(root, text="Збиткі від втрат сировини, матеріалів та напівфабрикатів, проміжної продукції: ")
 label_func5.pack()
-button_func5 = tk.Button(root, text="Функція 5", command=func5)
+button_func5 = tk.Button(root, text="Втрати сировини, матеріалів та напівфабрикатів, проміжної продукції", command=func5)
 button_func5.pack()
 
 
-label_func6 = tk.Label(root, text="func6: ")
+label_func6 = tk.Label(root, text="Збиткі від втрат майна громадян та організацій: ")
 label_func6.pack()
-button_func6 = tk.Button(root, text="Функція 6", command=func6)
+button_func6 = tk.Button(root, text="Втрати майна громадян та організацій", command=func6)
 button_func6.pack()
 
 label_sum = tk.Label(root, text="Сума: ")
