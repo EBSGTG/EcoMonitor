@@ -3,14 +3,14 @@ from tkinter import ttk
 import mysql.connector
 from enum import Enum
 
-# Оголошення ENUM для objectName та pollutantName
+
 class ObjectName(Enum):
     PTAHOKOMPLEX_GUBIN = 'ТзОВ «Птахокомплекс Губин»'
     LOKACHYNSKIY_CVNTK = 'Локачинський ЦВНТК ПАТ «Укргазвидобування»'
     VOLYNTORF = 'ДП «Волиньторф»'
     FREE = 'FREE'
 
-# З'єднання з базою даних
+
 db = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -20,7 +20,7 @@ db = mysql.connector.connect(
 
 cursor = db.cursor()
 
-# Функція для розрахунку відшкодування та збереження в базу даних
+
 def calculate_compensation():
     object_name = object_combobox.get()
     pollutant_name = pollutant_combobox.get()
@@ -112,7 +112,7 @@ c_t_label.pack()
 c_t_entry = tk.Entry(root)
 c_t_entry.pack()
 
-c_danger_label = tk.Label(root, text="Коефіцієнт,   що   залежить   від  рівня  забрудненнязіатмосферного  повітря   населеного   пункту   i-тою   забруднюючою речовиною:")
+c_danger_label = tk.Label(root, text="Коефіцієнт,   що   залежить   від  рівня  забруднення з атмосферного  повітря   населеного   пункту   i-тою   забруднюючою речовиною:")
 c_danger_label.pack()
 
 c_danger_entry = tk.Entry(root)
@@ -163,7 +163,7 @@ def show_history():
     refresh_button = tk.Button(history_window, text="Оновити", command=display_compensation_data)
     refresh_button.pack()
 
-# Створення головного вікна
+
 
 history_button = tk.Button(root, text="Історія", command=show_history)
 history_button.pack()

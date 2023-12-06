@@ -27,7 +27,7 @@ def open_lab3_window():
 
 
 def open_lab4_window():
-    command = 'python lab4.py'
+    command = 'python lab4.py &&  python lab4_2.py &&  python lab4_3.py &&  python lab4_4.py &&  python lab4_5.py'
     result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     if result.returncode == 0:
         print(result.stdout)

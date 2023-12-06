@@ -192,7 +192,40 @@ def select_record(event):
         selected_item = selected_items[0]
         selected_id = table.item(selected_item, "values")[9]
 
+def apply_filters():
+    year_filter = year_filter_entry.get()
+    object_name_filter = object_name_filter_entry.get()
+
+    connection = mysql.connector.connect(host=host, user=user, password=password, database=database)
+    cursor = connection.cursor()
+
+    query = "SELECT * FROM data WHERE 1=1"
+    params = []
+
+    if year_filter:
+        query += " AND year = %s"
+        params.append(year_filter)
+
+    if object_name_filter:
+        query += " AND objectName LIKE %s"
+        params.append(f"%{object_name_filter}%")
+
+    cursor.execute(query, params)
+    records = cursor.fetchall()
+
+    for item in table.get_children():
+        table.delete(item)
+
+    for record in records:
+        table.insert("", "end", values=record)
+
+    connection.close()
+
+
+
+
 root = tk.Tk()
+
 root.title("Імпорт даних з Excel до MySQL")
 
 window_width = 1550
@@ -241,4 +274,22 @@ edit_button.pack()
 delete_button = tk.Button(root, text="Видалити запис", command=delete_record, relief="flat")
 delete_button.pack()
 display_table()
+
+
+filter_frame = tk.Frame(root, bg="white")
+filter_frame.pack(pady=10)
+
+year_filter_label = tk.Label(filter_frame, text="Фільтр за роком:")
+year_filter_label.grid(row=0, column=0)
+year_filter_entry = tk.Entry(filter_frame)
+year_filter_entry.grid(row=0, column=1)
+
+object_name_filter_label = tk.Label(filter_frame, text="Фільтр за назвою об'єкту:")
+object_name_filter_label.grid(row=0, column=2)
+object_name_filter_entry = tk.Entry(filter_frame)
+object_name_filter_entry.grid(row=0, column=3)
+
+filter_button = tk.Button(filter_frame, text="Застосувати фільтри", command=apply_filters, relief="flat")
+filter_button.grid(row=0, column=4)
+
 root.mainloop()
